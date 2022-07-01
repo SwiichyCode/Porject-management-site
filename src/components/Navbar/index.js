@@ -1,14 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import { useLogout } from "../../hooks/useLogout";
 import { NavbarWrapper } from "./style";
 import Temple from "../../assets/temple.svg";
 
 export default function Navbar() {
+  const { logout, isPending } = useLogout();
+
   const items = [
     { routes: "/login", text: "Login" },
     { routes: "/signup", text: "Signup" },
   ];
+
   return (
     <NavbarWrapper className="navbar">
       <ul>
@@ -22,7 +26,15 @@ export default function Navbar() {
           </li>
         ))}
         <li>
-          <button className="btn">Logout</button>
+          {!isPending ? (
+            <button className="btn" onClick={logout}>
+              Logout
+            </button>
+          ) : (
+            <button className="btn" disabled>
+              Logging out...
+            </button>
+          )}
         </li>
       </ul>
     </NavbarWrapper>
